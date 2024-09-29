@@ -6,7 +6,7 @@
 
     <link name="imu_link">
         <visual>
-            <origin xyz="${wheelbase_length / 2} 0 ${wheel_diameter}" rpy="0 0 0"/>
+            <origin xyz="0 0 ${wheel_diameter}" rpy="0 0 0"/>
             <geometry>
                 <box size="${imu_size} ${imu_size} ${imu_size}"/>
             </geometry>
@@ -30,6 +30,7 @@
         <parent link="base_link"/>
         <child link="imu_link"/>
     </joint>
+
 
     <link name="sllidar_base_link">
         <visual>

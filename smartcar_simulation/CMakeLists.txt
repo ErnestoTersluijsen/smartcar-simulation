@@ -30,8 +30,7 @@ install(TARGETS ${PROJECT_NAME}
   DESTINATION lib/${PROJECT_NAME}
 )
 
-install(
-  DIRECTORY launch rviz urdf world
+install(DIRECTORY launch rviz urdf world
   DESTINATION share/${PROJECT_NAME}
 )
 
