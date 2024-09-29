@@ -1,5 +1,9 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <material name="body_material">
+        <color rgba="1 0 0 1"/>
+    </material>
+
     <material name="wheel_material">
         <color rgba="0 0 0 1"/>
     </material>
@@ -9,7 +13,7 @@
     </material>
 
     <material name="lidar_material">
-        <color rgba="0 0 0 1"/>
+        <color rgba="1 0 1 1"/>
     </material>
 
     <material name="footprint_material">

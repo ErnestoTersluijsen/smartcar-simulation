@@ -12,6 +12,7 @@
     </link>
 
     <joint name="base_to_chassis" type="fixed">
+        <origin xyz="0 0 ${wheel_radius}" rpy="0 0 0"/>
         <parent link="base_link"/>
         <child link="chassis_link"/>
     </joint>
@@ -21,30 +22,54 @@
             <geometry>
                 <box size="${wheelbase_length} ${wheelbase_width} ${chassis_thickness}"/>
             </geometry>
-            <origin xyz="0 0 ${wheel_radius}" rpy="0 0 0"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="body_material"/>
         </visual>
+        <collision>
+            <geometry>
+                <box size="${wheelbase_length} ${wheelbase_width} ${chassis_thickness}"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </collision>
+        <inertial>
+            <mass value="5.0"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="0.02" ixy="0.0" ixz="0.0" iyy="0.02" iyz="0.0" izz="0.02"/>
+        </inertial>
     </link>
 
-    <link name="base_footprint">
-        <visual>
-            <geometry>
-                <box size="${wheelbase_length * 2} ${wheelbase_width * 2} ${wheel_diameter * 2}"/>
-            </geometry>
-            <material name="footprint_material"/>
-            <origin xyz="0 0 ${wheel_diameter}" rpy="0 0 0" />
-        </visual>
-    </link>
+    <gazebo reference="chassis_link">
+        <material>Gazebo/Red</material>
+    </gazebo>
 
     <joint name="base_to_footprint" type="fixed">
         <parent link="base_link"/>
         <child link="base_footprint"/>
     </joint>
 
+    <link name="base_footprint">
+        <visual>
+            <origin xyz="0 0 0.0001" rpy="0 0 0" />
+            <geometry>
+                <box size="${wheelbase_length} ${wheelbase_width} 0"/>
+            </geometry>
+            <material name="footprint_material"/>
+        </visual>
+    </link>
+
+    <gazebo reference="base_footprint">
+        <material>Gazebo/TurquoiseGlow</material>
+    </gazebo>
+
     <xacro:front_wheel prefix="left" parent="base_link" x="${wheelbase_length / 2}" y="${wheelbase_width / 2}" z="${wheel_radius}" wheel_offset="${wheel_width / 2}"/>
     <xacro:front_wheel prefix="right" parent="base_link" x="${wheelbase_length / 2}" y="-${wheelbase_width / 2}" z="${wheel_radius}" wheel_offset="-${wheel_width / 2}"/>
     
-    <xacro:rear_wheel prefix="left" parent="base_link" x="-${wheelbase_length / 2}" y="${wheelbase_width / 2}" z="${wheel_radius}" wheel_offset="${wheel_width / 2}"/>
-    <xacro:rear_wheel prefix="right" parent="base_link" x="-${wheelbase_length / 2}" y="-${wheelbase_width / 2}" z="${wheel_radius}" wheel_offset="-${wheel_width / 2}"/>
+    <xacro:back_wheel prefix="left" parent="base_link" x="-${wheelbase_length / 2}" y="${wheelbase_width / 2}" z="${wheel_radius}" wheel_offset="${wheel_width / 2}"/>
+    <xacro:back_wheel prefix="right" parent="base_link" x="-${wheelbase_length / 2}" y="-${wheelbase_width / 2}" z="${wheel_radius}" wheel_offset="-${wheel_width / 2}"/>
 
     <xacro:include filename="sensors.xacro"/>
+
+    <gazebo>
+        <plugin name="car_gazebo_plugin" filename="libcar_gazebo_plugin.so"></plugin>
+    </gazebo>
 </robot>
