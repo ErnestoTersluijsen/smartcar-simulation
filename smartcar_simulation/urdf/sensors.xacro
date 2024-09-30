@@ -71,7 +71,7 @@
 
     <gazebo reference="sllidar_base_link">
         <sensor name="sensor_gpu_ray" type="ray">
-            <visualize>false</visualize>
+            <visualize>true</visualize>
             <ray>
                 <scan>
                     <horizontal>
