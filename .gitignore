@@ -1,5 +1,4 @@
 build/
 log/
 install/
-start_rviz.sh
 smartcar_simulation/urdf/smartcar.urdf
