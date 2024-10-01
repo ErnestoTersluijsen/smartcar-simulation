@@ -12,7 +12,6 @@ find_package(rclcpp REQUIRED)
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
-
 add_executable(${PROJECT_NAME}
   src/main.cpp
 )
