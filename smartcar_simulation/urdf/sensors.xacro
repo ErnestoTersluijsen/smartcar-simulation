@@ -82,7 +82,7 @@
                     </horizontal>
                 </scan>
                 <range>
-                    <min>0.5</min>
+                    <min>0.3</min>
                     <max>50.0</max>
                 </range>
             </ray>
@@ -91,14 +91,13 @@
             <plugin name="laser_scan_plugin" filename="libgazebo_ros_ray_sensor.so">
                 <output_type>sensor_msgs/LaserScan</output_type>
                 <frameName>sllidar_base_link</frameName> 
-                <topicName>/scan</topicName> 
-                <remapping>~/out:=scan</remapping> 
-                <robotNamespace>/</robotNamespace> 
+                <topicName>/scan</topicName>
+                <remapping>~/out:=scan</remapping>
                 <updateRate>30.0</updateRate> 
             </plugin>
         </sensor>
 
-        <material>Gazebo/Purple</material>
+        <material>Gazebo/Black</material>
     </gazebo>
 
     <joint name="base_to_lidar" type="fixed">
