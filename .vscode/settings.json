@@ -4,5 +4,6 @@
         "configurations": [],
         "compounds": []
     },
-    "cmake.configureOnOpen": false
+    "cmake.configureOnOpen": false,
+    "editor.detectIndentation": false
 }
