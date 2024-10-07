@@ -11,9 +11,11 @@ find_package(rclcpp REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
+find_package(smartcar_msgs REQUIRED)
 
 add_executable(${PROJECT_NAME}
   src/main.cpp
+  src/wheel_odometer.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
@@ -23,6 +25,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 ament_target_dependencies(${PROJECT_NAME}
   rclcpp
+  smartcar_msgs
 )
 
 install(TARGETS ${PROJECT_NAME}

@@ -1,14 +1,19 @@
 #ifndef SMARTCAR_SIMULATION_WHEEL_ODOMETER_HPP
 #define SMARTCAR_SIMULATION_WHEEL_ODOMETER_HPP
 
-class wheel_odometer
+#include "smartcar_msgs/msg/status.hpp"
+
+#include <rclcpp/rclcpp.hpp>
+
+class WheelOdometer : public rclcpp::Node
 {
   public:
-    wheel_odometer(/* args */);
-    ~wheel_odometer();
+    WheelOdometer();
 
   private:
-    /* data */
+    void vehicle_status_callback(const smartcar_msgs::msg::Status::SharedPtr status_msg);
+
+    rclcpp::Subscription<smartcar_msgs::msg::Status>::SharedPtr subscription_;
 };
 
-#endif
+#endif // SMARTCAR_SIMULATION_WHEEL_ODOMETER_HPP
