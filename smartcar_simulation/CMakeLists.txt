@@ -15,7 +15,7 @@ find_package(smartcar_msgs REQUIRED)
 
 add_executable(${PROJECT_NAME}
   src/main.cpp
-  src/wheel_odometer.cpp
+  src/wheel_odometry.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
