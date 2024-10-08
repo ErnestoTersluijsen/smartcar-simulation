@@ -40,7 +40,7 @@ class WheelOdometry : public rclcpp::Node
     double wheel_diameter_;
 
     std::array<double, 36> pose_covariance_;
-    
+
     std::array<double, 36> twist_covariance_;
 };
 
