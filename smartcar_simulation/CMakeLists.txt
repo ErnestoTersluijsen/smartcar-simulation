@@ -12,6 +12,9 @@ find_package(rclcpp REQUIRED)
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 find_package(smartcar_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
 
 add_executable(${PROJECT_NAME}
   src/main.cpp
@@ -26,6 +29,9 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 ament_target_dependencies(${PROJECT_NAME}
   rclcpp
   smartcar_msgs
+  nav_msgs
+  tf2
+  tf2_geometry_msgs
 )
 
 install(TARGETS ${PROJECT_NAME}

@@ -5,5 +5,8 @@
         "compounds": []
     },
     "cmake.configureOnOpen": false,
-    "editor.detectIndentation": false
+    "editor.detectIndentation": false,
+    "files.associations": {
+        "chrono": "cpp"
+    }
 }
