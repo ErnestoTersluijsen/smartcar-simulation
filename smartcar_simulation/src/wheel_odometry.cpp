@@ -26,7 +26,6 @@ void WheelOdometry::update_position(int32_t rpm, double steering_angle, rclcpp::
     if (position_.timestamp.nanoseconds() == 0)
     {
         position_.timestamp = rclcpp::Time(this->get_clock()->now(), RCL_SYSTEM_TIME);
-        RCLCPP_INFO(this->get_logger(), "first message received, only take note of timestamp");
         return;
     }
 
@@ -39,10 +38,6 @@ void WheelOdometry::update_position(int32_t rpm, double steering_angle, rclcpp::
     double phi = position_.phi + angular_velocity * time_step.seconds();
     double x = position_.x + linear_velocity * std::cos(phi) * time_step.seconds();
     double y = position_.y + linear_velocity * std::sin(phi) * time_step.seconds();
-
-    RCLCPP_INFO(this->get_logger(), "Phi:\t %f", phi);
-    RCLCPP_INFO(this->get_logger(), "X:\t %f", x);
-    RCLCPP_INFO(this->get_logger(), "Y:\t %f", y);
 
     position_.phi = phi;
     position_.x = x;
