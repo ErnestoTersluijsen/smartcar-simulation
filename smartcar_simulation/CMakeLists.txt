@@ -17,17 +17,17 @@ find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 
-add_executable(${PROJECT_NAME}
-  src/main.cpp
+add_executable(wheel_odometry
+  src/main_odometry.cpp
   src/wheel_odometry.cpp
 )
 
-target_include_directories(${PROJECT_NAME} PUBLIC
+target_include_directories(wheel_odometry PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
 )
 
-ament_target_dependencies(${PROJECT_NAME}
+ament_target_dependencies(wheel_odometry
   rclcpp
   smartcar_msgs
   nav_msgs
@@ -36,7 +36,24 @@ ament_target_dependencies(${PROJECT_NAME}
   tf2_geometry_msgs
 )
 
-install(TARGETS ${PROJECT_NAME}
+install(TARGETS wheel_odometry
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+add_executable(joint_state_publisher
+  src/main_state_publisher.cpp
+)
+
+target_include_directories(joint_state_publisher PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
+
+ament_target_dependencies(joint_state_publisher
+  rclcpp
+)
+
+install(TARGETS joint_state_publisher
   DESTINATION lib/${PROJECT_NAME}
 )
 
