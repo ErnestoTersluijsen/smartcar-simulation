@@ -35,13 +35,6 @@ def generate_launch_description():
     ))
 
     ld.add_action(Node(
-        package='joint_state_publisher_gui',
-        executable='joint_state_publisher_gui',
-        name='joint_state_publisher_gui',
-        output='screen'
-    ))
-
-    ld.add_action(Node(
         package='rviz2',
         executable='rviz2',
         name='rviz2',
@@ -66,7 +59,14 @@ def generate_launch_description():
 
     ld.add_action(Node(
         package='smartcar_simulation',
-        executable='smartcar_simulation'
+        executable='wheel_odometry',
+        parameters=[{'use_sim_time': True}]
     ))
     
+    ld.add_action(Node(
+        package='smartcar_simulation',
+        executable='joint_state_publisher',
+        parameters=[{'use_sim_time': True}]
+    ))
+
     return ld

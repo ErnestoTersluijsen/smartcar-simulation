@@ -1,5 +1,7 @@
 #include "smartcar_simulation/wheel_odometry.hpp"
 
+#include "smartcar_msgs/msg/status.hpp"
+
 #include <nav_msgs/msg/odometry.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <tf2/LinearMath/Quaternion.h>
@@ -44,6 +46,10 @@ void WheelOdometry::update_position(int32_t rpm, double steering_angle, rclcpp::
     position_.y = y;
 
     nav_msgs::msg::Odometry message;
+
+    message.header.stamp = get_clock()->now();
+    message.header.frame_id = "odom";
+    message.child_frame_id = "base_link";
 
     message.pose.pose.position.x = x;
     message.pose.pose.position.y = y;

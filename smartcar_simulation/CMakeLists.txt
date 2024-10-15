@@ -13,6 +13,7 @@ find_package(rclcpp REQUIRED)
 # find_package(<dependency> REQUIRED)
 find_package(smartcar_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
@@ -42,6 +43,7 @@ install(TARGETS wheel_odometry
 
 add_executable(joint_state_publisher
   src/main_state_publisher.cpp
+  src/joint_state_publisher.cpp
 )
 
 target_include_directories(joint_state_publisher PUBLIC
@@ -51,6 +53,11 @@ target_include_directories(joint_state_publisher PUBLIC
 
 ament_target_dependencies(joint_state_publisher
   rclcpp
+  smartcar_msgs
+  sensor_msgs
+  tf2
+  tf2_ros
+  tf2_geometry_msgs
 )
 
 install(TARGETS joint_state_publisher
