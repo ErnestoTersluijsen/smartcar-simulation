@@ -12,7 +12,7 @@ def generate_launch_description():
     smartcar_sim_path = FindPackageShare('smartcar_simulation')
 
     default_model_path = PathJoinSubstitution([smartcar_sim_path, 'urdf', 'smartcar.urdf'])
-    default_rviz_config_path = PathJoinSubstitution([smartcar_sim_path, 'rviz', 'urdf_config.rviz'])
+    default_rviz_config_path = PathJoinSubstitution([smartcar_sim_path, 'rviz', 'odometry_config.rviz'])
 
     default_world_path = PathJoinSubstitution([smartcar_sim_path, 'world', 'smalltown.world'])  # Change this to your actual .world file
 

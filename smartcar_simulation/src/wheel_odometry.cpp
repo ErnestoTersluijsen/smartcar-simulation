@@ -20,15 +20,24 @@ WheelOdometry::WheelOdometry()
 
 void WheelOdometry::vehicle_status_callback(const smartcar_msgs::msg::Status::SharedPtr status_msg)
 {
-    update_position(status_msg->engine_speed_rpm, status_msg->steering_angle_rad, rclcpp::Time(this->get_clock()->now(), RCL_SYSTEM_TIME));
+    update_position(status_msg->engine_speed_rpm, status_msg->steering_angle_rad, this->get_clock()->now());
 }
 
 void WheelOdometry::update_position(int32_t rpm, double steering_angle, rclcpp::Time current_time)
 {
     if (position_.timestamp.nanoseconds() == 0)
     {
-        position_.timestamp = rclcpp::Time(this->get_clock()->now(), RCL_SYSTEM_TIME);
+        position_.timestamp = this->get_clock()->now();
         return;
+    }
+
+    if (steering_angle > M_PI)
+    {
+        steering_angle -= M_PI * 2;
+    }
+    else if (steering_angle < -M_PI)
+    {
+        steering_angle += M_PI * 2;
     }
 
     rclcpp::Duration time_step = current_time - position_.timestamp;
@@ -73,7 +82,7 @@ void WheelOdometry::update_position(int32_t rpm, double steering_angle, rclcpp::
 
 double WheelOdometry::calc_angular_velocity(int32_t rpm, double steering_angle)
 {
-    return (calc_linear_velocity(rpm, wheel_diameter_) / wheelbase_) / std::tan(steering_angle);
+    return (calc_linear_velocity(rpm, wheel_diameter_) / wheelbase_) * std::tan(steering_angle);
 }
 
 double WheelOdometry::calc_linear_velocity(int32_t rpm, double wheel_diameter)
