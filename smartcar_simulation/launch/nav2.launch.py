@@ -5,6 +5,7 @@ from launch_ros.substitutions import FindPackageShare
 from launch_ros.actions import Node
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
+import os
 
 def generate_launch_description():
     ld = LaunchDescription()
@@ -12,9 +13,14 @@ def generate_launch_description():
     smartcar_sim_path = FindPackageShare('smartcar_simulation')
 
     default_model_path = PathJoinSubstitution([smartcar_sim_path, 'urdf', 'smartcar.urdf'])
-    default_rviz_config_path = PathJoinSubstitution([smartcar_sim_path, 'rviz', 'urdf_config.rviz'])
+    default_rviz_config_path = PathJoinSubstitution([smartcar_sim_path, 'rviz', 'odometry_config.rviz'])
 
-    default_world_path = PathJoinSubstitution([smartcar_sim_path, 'world', 'smalltown.world'])  # Change this to your actual .world file
+    default_world_path = PathJoinSubstitution([smartcar_sim_path, 'world', 'smalltown.world'])
+
+    default_ekf_config_path = PathJoinSubstitution([smartcar_sim_path, 'config', 'ekf.yaml'])
+
+    default_map_config_path = PathJoinSubstitution([smartcar_sim_path, 'map', 'smalltown_world.yaml'])
+
 
     ld.add_action(DeclareLaunchArgument(name='rvizconfig', default_value=default_rviz_config_path,
                                         description='Absolute path to rviz config file'))
@@ -24,7 +30,12 @@ def generate_launch_description():
 
     ld.add_action(DeclareLaunchArgument(name='world', default_value=default_world_path,
                                         description='Path to the Gazebo world file'))
+    
+    ld.add_action(DeclareLaunchArgument(name="ekf_config", default_value=default_ekf_config_path,
+                                        description='Path to extended kalman filter config'))
 
+    ld.add_action(DeclareLaunchArgument(name="map_config", default_value=default_map_config_path,
+                                        description='Path to map config'))
 
     ld.add_action(Node(
         package='robot_state_publisher',
@@ -32,13 +43,6 @@ def generate_launch_description():
         name='robot_state_publisher_smartcar',
         output='screen',
         arguments=[LaunchConfiguration('smartcar_model')]
-    ))
-
-    ld.add_action(Node(
-        package='joint_state_publisher_gui',
-        executable='joint_state_publisher_gui',
-        name='joint_state_publisher_gui',
-        output='screen'
     ))
 
     ld.add_action(Node(
@@ -64,4 +68,24 @@ def generate_launch_description():
         output='screen'
     ))
 
+    ld.add_action(Node(
+        package='smartcar_simulation',
+        executable='wheel_odometry',
+        parameters=[{'use_sim_time': True}]
+    ))
+    
+    ld.add_action(Node(
+        package='smartcar_simulation',
+        executable='joint_state_publisher',
+        parameters=[{'use_sim_time': True}]
+    ))
+
+    ld.add_action(Node(
+        package='robot_localization',
+        executable='ekf_node',
+        name='ekf_filter_node',
+        output='screen',
+        parameters=[LaunchConfiguration('ekf_config'), {'use_sim_time': True}]
+    ))
+    
     return ld

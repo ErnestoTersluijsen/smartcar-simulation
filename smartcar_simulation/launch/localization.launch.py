@@ -12,9 +12,11 @@ def generate_launch_description():
     smartcar_sim_path = FindPackageShare('smartcar_simulation')
 
     default_model_path = PathJoinSubstitution([smartcar_sim_path, 'urdf', 'smartcar.urdf'])
-    default_rviz_config_path = PathJoinSubstitution([smartcar_sim_path, 'rviz', 'urdf_config.rviz'])
+    default_rviz_config_path = PathJoinSubstitution([smartcar_sim_path, 'rviz', 'odometry_config.rviz'])
 
-    default_world_path = PathJoinSubstitution([smartcar_sim_path, 'world', 'smalltown.world'])  # Change this to your actual .world file
+    default_world_path = PathJoinSubstitution([smartcar_sim_path, 'world', 'smalltown.world'])
+
+    default_ekf_config_path = PathJoinSubstitution([smartcar_sim_path, 'config', 'ekf.yaml'])
 
     ld.add_action(DeclareLaunchArgument(name='rvizconfig', default_value=default_rviz_config_path,
                                         description='Absolute path to rviz config file'))
@@ -24,7 +26,9 @@ def generate_launch_description():
 
     ld.add_action(DeclareLaunchArgument(name='world', default_value=default_world_path,
                                         description='Path to the Gazebo world file'))
-
+    
+    ld.add_action(DeclareLaunchArgument(name="ekf_config", default_value=default_ekf_config_path,
+                                        description='Path to extended kalman filter config'))
 
     ld.add_action(Node(
         package='robot_state_publisher',
@@ -67,6 +71,14 @@ def generate_launch_description():
         package='smartcar_simulation',
         executable='joint_state_publisher',
         parameters=[{'use_sim_time': True}]
+    ))
+
+    ld.add_action(Node(
+        package='robot_localization',
+        executable='ekf_node',
+        name='ekf_filter_node',
+        output='screen',
+        parameters=[LaunchConfiguration('ekf_config'), {'use_sim_time': True}]
     ))
 
     return ld

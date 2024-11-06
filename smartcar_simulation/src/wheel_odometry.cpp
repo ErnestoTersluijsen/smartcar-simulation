@@ -49,7 +49,7 @@ void WheelOdometry::update_position(int32_t rpm, double steering_angle, rclcpp::
     double phi = position_.phi + angular_velocity * time_step.seconds();
     double x = position_.x + linear_velocity * std::cos(phi) * time_step.seconds();
     double y = position_.y + linear_velocity * std::sin(phi) * time_step.seconds();
-    
+
     position_.phi = phi;
     position_.x = x;
     position_.y = y;

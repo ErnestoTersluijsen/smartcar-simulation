@@ -64,7 +64,7 @@ install(TARGETS joint_state_publisher
   DESTINATION lib/${PROJECT_NAME}
 )
 
-install(DIRECTORY launch rviz urdf world
+install(DIRECTORY launch rviz urdf world config map
   DESTINATION share/${PROJECT_NAME}
 )
 
