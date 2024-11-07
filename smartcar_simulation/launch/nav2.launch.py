@@ -70,6 +70,14 @@ def generate_launch_description():
         launch_arguments={'map': LaunchConfiguration('map_config')}.items()
     ))
 
+    ld.add_action(Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        output='screen',
+        arguments=['-d', LaunchConfiguration('rvizconfig')]
+    ))
+
     ld.add_action(IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [PathJoinSubstitution([FindPackageShare('gazebo_ros'), 'launch', 'gazebo.launch.py'])]
