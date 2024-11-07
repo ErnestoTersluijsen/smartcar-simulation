@@ -31,15 +31,6 @@ void WheelOdometry::update_position(int32_t rpm, double steering_angle, rclcpp::
         return;
     }
 
-    if (steering_angle > M_PI)
-    {
-        steering_angle -= M_PI * 2;
-    }
-    else if (steering_angle < -M_PI)
-    {
-        steering_angle += M_PI * 2;
-    }
-
     rclcpp::Duration time_step = current_time - position_.timestamp;
     position_.timestamp = current_time;
 
